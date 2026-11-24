@@ -13,9 +13,10 @@ const config: SiteConfig = {
   nom: 'Clinique Vétérinaire DreamVet',
   signature: 'la clinique vétérinaire DreamVet',
   ville: 'Alger', // À CONFIRMER
-  accroche: 'Des soins au service de vos animaux',
+  logoLarge: true,
+  accroche: 'Vos compagnons méritent le meilleur',
   indicatifPays: '213',
-  couleur: '#1F5FAE',
+  couleur: '#0C6FB0',
   cabinets: [
     {
       id: 'dreamvet',
@@ -29,12 +30,12 @@ const config: SiteConfig = {
     },
   ],
   services: [
-    { title: 'Radiologie', icon: 'radio', text: "Radiographies sur place pour un diagnostic rapide et précis.", points: ['Os, thorax, abdomen', 'Résultat le jour même', 'Images conservées dans la fiche'] },
-    { title: 'Chirurgie', icon: 'chirurgie', text: 'Interventions programmées ou urgentes, avec suivi après l\'opération.', points: ['Stérilisation et castration', 'Chirurgie des tissus mous', "Contrôle après l'opération"] },
-    { title: 'Gardiennage', icon: 'gardiennage', text: 'Votre animal est gardé dans de bonnes conditions pendant votre absence.', points: ['Espace propre et sécurisé', 'Surveillance par l\'équipe', 'Nouvelles sur demande'] },
-    { title: 'Hospitalisation', icon: 'hospitalisation', text: 'Surveillance et soins continus pour les animaux qui en ont besoin.', points: ['Perfusion et traitements', 'Suivi quotidien', 'Vous êtes tenu informé'] },
-    { title: 'Vaccination', icon: 'vaccin', text: "Vaccins et rappels selon l'espèce et l'âge, notés dans la fiche.", points: ['Chiens : CHPPi, leptospirose, rage, leishmaniose', 'Chats : CHLP, rage', 'Rappels envoyés au bon moment'] },
-    { title: 'Bien-être animal', icon: 'bienetre', text: "Conseils et soins pour que votre compagnon vive bien et longtemps.", points: ['Alimentation adaptée', 'Vermifuge et anti-puces', 'Conseils au quotidien'] },
+    { title: 'Radiologie', icon: 'radio', text: 'Radiographies pour voir ce qui se passe sous la peau et poser un diagnostic fiable.', points: ['Os, thorax, abdomen', 'Images gardées dans la fiche', 'Expliquées simplement au propriétaire'] },
+    { title: 'Chirurgie', icon: 'chirurgie', text: 'Interventions programmées ou urgentes, avec un suivi après l\'opération.', points: ['Stérilisation et castration', 'Chirurgie des tissus mous', 'Contrôle après l\'opération'] },
+    { title: 'Gardiennage', icon: 'gardiennage', text: 'Vous partez quelques jours ? Votre animal est gardé à la clinique.', points: ['Renseignez-vous sur les places disponibles', 'Précisez son alimentation et ses habitudes', 'Appelez-nous pour réserver'] },
+    { title: 'Hospitalisation', icon: 'hospitalisation', text: 'Pour les animaux qui ont besoin de soins et de surveillance dans la durée.', points: ['Traitements et perfusions', 'Suivi médical par le vétérinaire', 'Nous restons en contact avec vous'] },
+    { title: 'Vaccination', icon: 'vaccin', text: 'Protégez votre animal avec les vaccins adaptés à son espèce et à son âge.', points: ['Chiens : CHPPi, leptospirose, rage, leishmaniose', 'Chats : CHLP, rage', 'Carnet de rappels dans la fiche'] },
+    { title: 'Bien-être animal', icon: 'bienetre', text: 'Alimentation, hygiène, parasites : les bons réflexes pour qu\'il vive longtemps en pleine forme.', points: ['Vermifuge et anti-puces', 'Conseils d\'alimentation', 'Questions de comportement'] },
   ],
   avis: [],
 }

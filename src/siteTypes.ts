@@ -32,6 +32,8 @@ export interface SiteConfig {
   titre: string
   /** Nom affiché dans l'en-tête et dans les messages WhatsApp, ex. « Docteur Martin » */
   nom: string
+  /** Le logo est une image large (nom + dessin) : l'en-tête l'affiche seule, sans répéter le nom */
+  logoLarge?: boolean
   /** Facultatif : comment le cabinet se présente dans les messages WhatsApp (sinon le nom ci-dessus), ex. « le cabinet vétérinaire du Dr Martin » */
   signature?: string
   /** Ville ou région affichée sous le nom */

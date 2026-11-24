@@ -18,7 +18,7 @@ export function Logo({
   variant = "white",
   className = "",
 }: {
-  variant?: "white" | "blue";
+  variant?: "white" | "blue" | "wide";
   className?: string;
 }) {
   return (
@@ -32,9 +32,9 @@ export function Logo({
 
 export function Brand({ size = "h-12" }: { size?: string }) {
   return (
-    <Link to="/" className="flex items-center gap-3">
-      <Logo className={size} />
-      <span className="leading-tight">
+    <Link to="/" className="flex items-center gap-3" aria-label={site.nom}>
+      {site.logoLarge ? <Logo variant="wide" className="h-10 w-auto md:h-12" /> : <Logo className={size} />}
+      <span className={`leading-tight ${site.logoLarge ? "sr-only" : ""}`}>
         <strong className="block text-lg md:text-xl">{site.nom}</strong>
         <span className="text-[13px] opacity-85">
           {cabinets.map((c) => c.court).join(" · ")}
@@ -63,10 +63,10 @@ export function Header() {
   const { pathname } = useLocation();
   useEffect(() => setOpen(false), [pathname]);
   return (
-    <header className="wrap flex flex-wrap items-center justify-between py-3 text-white md:py-4">
+    <header className="wrap flex flex-wrap items-center justify-between py-2.5 text-brand-dark md:py-3">
       <Brand size="h-11 md:h-14" />
       <button
-        className="rounded-lg border border-white/50 px-4 py-2 font-bold md:hidden"
+        className="rounded-full border-2 border-brand px-4 py-1.5 font-bold text-brand md:hidden"
         aria-expanded={open}
         onClick={() => setOpen(!open)}
       >
@@ -81,14 +81,14 @@ export function Header() {
             to={to}
             end
             className={({ isActive }) =>
-              `border-b-2 pb-1 transition-colors ${isActive ? "border-white font-extrabold" : "border-transparent hover:border-white/60"}`
+              `rounded-full px-4 py-1.5 font-bold transition-colors ${isActive ? "bg-brand text-white" : "hover:bg-brand-soft"}`
             }
           >
             {label}
           </NavLink>
         ))}
-        <Link to="/contact" className="btn btn-white text-center">
-          Prendre rendez-vous
+        <Link to="/contact" className="btn btn-warm rounded-full text-center">
+          Réserver une visite
         </Link>
       </nav>
     </header>
@@ -121,10 +121,10 @@ function horairesFooter() {
 
 export function Footer() {
   return (
-    <footer className="bg-brand text-white">
+    <footer className="bg-brand-dark text-white">
       <div className="wrap grid gap-8 py-10 text-sm leading-8 md:grid-cols-[2fr_1fr_1fr]">
-        <div className="flex items-start gap-4">
-          <Logo className="h-20" />
+        <div className="flex flex-col items-start gap-4">
+          {site.logoLarge ? <Logo variant="wide" className="h-16 w-auto" /> : <Logo className="h-20" />}
           <div>
             <strong className="text-lg">{site.nom}</strong>
             {cabinets.map((c) => (
@@ -141,7 +141,7 @@ export function Footer() {
           </div>
         </div>
         <div>
-          <strong>Pages</strong>
+          <strong>Naviguer</strong>
           {links.map(([to, l]) => (
             <Link key={to} to={to} className="block hover:underline">
               {l}
@@ -149,7 +149,7 @@ export function Footer() {
           ))}
         </div>
         <div>
-          <strong>Horaires</strong>
+          <strong>Nous recevons</strong>
           {horairesFooter()}
           <Link to="/admin" className="block opacity-70 hover:opacity-100">
             Espace vétérinaire
@@ -172,7 +172,7 @@ export function PublicLayout() {
   return (
     <>
       <div
-        className={`sticky top-0 z-40 bg-brand transition-shadow duration-300 ${scrolled ? "shadow-lg shadow-brand-dark/30" : ""}`}
+        className={`sticky top-0 z-40 border-b border-brand-line bg-white/95 backdrop-blur transition-shadow duration-300 ${scrolled ? "shadow-lg shadow-brand-dark/10" : ""}`}
       >
         <Header />
       </div>
@@ -186,15 +186,12 @@ export function PublicLayout() {
 
 export function PageHero({ title, text }: { title: string; text: string }) {
   return (
-    <div className="relative overflow-hidden bg-brand pb-12 text-white md:pb-14">
-      <Logo className="pointer-events-none absolute -right-6 -top-10 h-56 animate-float opacity-15 md:h-72" />
-      <div className="wrap relative pt-6">
-        <h1 className="animate-fade-up text-3xl font-extrabold md:text-5xl">
-          {title}
-        </h1>
-        <p className="mt-3 max-w-xl animate-fade-up text-lg opacity-90 [animation-delay:150ms]">
-          {text}
-        </p>
+    <div className="relative overflow-hidden bg-gradient-to-br from-brand-soft via-white to-brand-light pb-14 md:pb-16">
+      <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-brand-accent/25 md:h-80 md:w-80" />
+      <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 right-40 hidden h-48 w-48 rounded-full bg-brand-warm/20 md:block" />
+      <div className="wrap relative pt-10 md:pt-14">
+        <h1 className="animate-fade-up text-4xl font-bold text-brand-dark md:text-6xl">{title}</h1>
+        <p className="mt-4 max-w-xl animate-fade-up text-lg text-brand-muted [animation-delay:150ms]">{text}</p>
       </div>
     </div>
   );
@@ -204,20 +201,19 @@ export function Cta() {
   return (
     <section className="wrap py-12 md:py-16">
       <Reveal>
-        <div className="relative flex flex-col items-start justify-between gap-6 overflow-hidden rounded-3xl bg-brand p-8 text-white md:flex-row md:items-center md:p-10">
-          <Logo className="pointer-events-none absolute -bottom-10 right-0 h-56 opacity-15 md:right-40" />
+        <div className="relative flex flex-col items-start justify-between gap-6 overflow-hidden rounded-[2rem] bg-brand-dark p-8 text-white md:flex-row md:items-center md:p-12">
+          <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-brand-accent/30" />
+          <Logo className="pointer-events-none absolute -bottom-6 right-6 hidden h-40 animate-float md:block" />
           <div className="relative">
-            <h2 className="mb-2 text-2xl font-extrabold md:text-3xl">
-              Un rendez-vous pour votre compagnon ?
-            </h2>
-            <p className="opacity-90">
-              {cabinets.length > 1
-                ? cabinets.map((c) => `${c.court} : ${c.telephone}`).join(" · ")
-                : cabinets[0].telephone}
+            <h2 className="mb-2 text-3xl font-bold md:text-4xl">Votre compagnon a besoin de nous ?</h2>
+            <p className="text-lg opacity-90">
+              Appelez-nous au{" "}
+              <a className="font-extrabold text-brand-accent hover:underline" href={telHref(cabinets[0].telephone)}>{cabinets[0].telephone}</a>{" "}
+              ou envoyez votre demande en ligne.
             </p>
           </div>
-          <Link to="/contact" className="btn btn-white relative">
-            Prendre rendez-vous
+          <Link to="/contact" className="btn btn-warm relative rounded-full px-8 md:mr-36">
+            Réserver une visite
           </Link>
         </div>
       </Reveal>

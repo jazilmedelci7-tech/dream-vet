@@ -4,11 +4,13 @@
 
 @layer base {
   html { scroll-behavior: smooth; }
+  h1, h2, h3 { @apply font-display; }
   body { @apply overflow-x-hidden bg-brand-light font-sans text-brand-dark; }
 }
 @layer components {
   .btn { @apply inline-block cursor-pointer rounded-xl px-6 py-3 text-[15px] font-bold transition duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand; }
   .btn-primary { @apply bg-brand text-white; }
+  .btn-warm { @apply bg-brand-warm text-brand-dark shadow-md shadow-brand-warm/30; }
   .btn-white { @apply border-2 border-white bg-white text-brand; }
   .btn-outline { @apply border-2 border-white text-white hover:bg-white/10; }
   .btn-ghost { @apply border border-brand-line bg-white text-brand-dark; }

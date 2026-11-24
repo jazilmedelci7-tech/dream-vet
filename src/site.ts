@@ -14,6 +14,8 @@ export function palette(hex: string): Record<string, string> {
     '--brand-light': mix(0.95, 255),
     '--brand-soft': mix(0.85, 255),
     '--brand-line': mix(0.82, 255),
+    '--accent': '27 196 240',
+    '--warm': '247 148 29',
     '--brand-muted': [r, g, b].map((c, i) => Math.round(c * 0.4 + [96, 100, 110][i] * 0.6)).join(' '),
   }
 }
