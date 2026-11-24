@@ -8,6 +8,8 @@ export interface Cabinet {
   nom: string
   /** Nom court, ex. « Centre-ville » */
   court: string
+  /** Facultatif : lien Google Maps du cabinet (bouton « Itinéraire ») */
+  lienCarte?: string
   adresse: string
   telephone: string
   email: string

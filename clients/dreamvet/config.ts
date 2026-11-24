@@ -22,11 +22,12 @@ const config: SiteConfig = {
       id: 'dreamvet',
       nom: 'Clinique vétérinaire DreamVet',
       court: 'DreamVet',
-      adresse: 'Adresse de la clinique, Alger', // À REMPLACER par l'adresse exacte (voir Google Maps)
+      adresse: 'Alger (voir la carte ci-dessous)', // À REMPLACER par l'adresse écrite exacte (rue, commune)
       telephone: '0552 77 69 46',
       email: '',
       horaires,
-      carte: 'Clinique vétérinaire DreamVet', // À REMPLACER : adresse ou nom tel qu'il apparaît sur Google Maps
+      carte: '36.69379969687329,2.966371809768169', // position exacte de la clinique
+      lienCarte: 'https://maps.app.goo.gl/bHay2y7PjvBiThMN8',
     },
   ],
   services: [

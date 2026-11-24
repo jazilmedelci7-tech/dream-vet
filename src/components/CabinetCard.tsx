@@ -35,6 +35,7 @@ export function CabinetMap({ c }: { c: Cabinet }) {
         referrerPolicy="no-referrer-when-downgrade"
         src={`https://www.google.com/maps?q=${encodeURIComponent(c.carte)}&output=embed`}
       />
+      {c.lienCarte && <a href={c.lienCarte} target="_blank" rel="noopener noreferrer" className="btn btn-primary mt-3 inline-block rounded-full">Obtenir l'itinéraire</a>}
     </div>
   )
 }
