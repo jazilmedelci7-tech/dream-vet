@@ -14,7 +14,7 @@ function num(v: string | undefined, def: number, min: number, max: number) {
 
 export const config = {
   port: Number(process.env.PORT ?? 4000),
-  mongoUri: process.env.MONGODB_URI ?? "mongodb://127.0.0.1:27017/vet-site",
+  mongoUri: process.env.MONGODB_URI ?? "mongodb://127.0.0.1:27017/dreamvet",
   jwtSecretEnv: process.env.JWT_SECRET || undefined,
   cookieSecure: process.env.COOKIE_SECURE === "true",
   isProd: process.env.NODE_ENV === "production",

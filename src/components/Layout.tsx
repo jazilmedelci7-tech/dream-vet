@@ -262,10 +262,9 @@ function AccountMenu() {
   const row = 'block w-full px-4 py-2.5 text-left text-[15px] text-brand-dark hover:bg-brand-light'
   return (
     <div ref={box} className="relative">
-      <button type="button" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)} className="flex w-full items-center gap-3 rounded-lg p-1.5 text-left transition-colors hover:bg-white/10">
-        <Logo className="h-10 md:h-11" />
-        <span className="min-w-0 flex-1 leading-tight"><strong className="block">{site.nom}</strong><span className="text-[12px] opacity-80">Espace vétérinaire</span></span>
-        <svg aria-hidden="true" viewBox="0 0 20 20" className={`h-4 w-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 8l5 5 5-5" /></svg>
+      <button type="button" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen(!open)} className={`flex w-full gap-3 rounded-2xl bg-white/10 p-2.5 text-left transition-colors hover:bg-white/20 ${site.logoLarge ? "flex-col items-start" : "items-center"}`}>
+        {site.logoLarge ? <Logo variant="wide" className="h-10 w-auto" /> : <Logo className="h-10 md:h-11" />}
+        <span className="flex w-full min-w-0 flex-1 items-center justify-between leading-tight">{!site.logoLarge && <strong className="block">{site.nom}</strong>}<span className="text-[12px] opacity-80">Espace vétérinaire</span><svg aria-hidden="true" viewBox="0 0 20 20" className={`h-4 w-4 shrink-0 transition-transform ${open ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" strokeWidth="2"><path d="M5 8l5 5 5-5" /></svg></span>
       </button>
       {open && (
         <div role="menu" className="absolute left-0 right-0 z-50 mt-2 animate-drop overflow-hidden rounded-lg border border-brand-line bg-white py-1 shadow-xl md:right-auto md:w-56">
@@ -288,10 +287,10 @@ function AdminShell() {
   const { pathname } = useLocation()
   const [alertesPharma, setAlertesPharma] = useState(0)
   useEffect(() => { api.produits().then((l) => setAlertesPharma(l.filter(enAlerte).length)).catch(() => setAlertesPharma(0)) }, [pathname])
-  const item = ({ isActive }: { isActive: boolean }) => `whitespace-nowrap rounded-lg px-3.5 py-2.5 transition-colors md:py-3 ${isActive ? 'bg-white/20 font-bold' : 'hover:bg-white/10'}`
+  const item = ({ isActive }: { isActive: boolean }) => `whitespace-nowrap rounded-lg px-3.5 py-2.5 transition-colors md:py-3 ${isActive ? 'bg-brand-accent font-bold text-brand-dark' : 'hover:bg-white/10'}`
   return (
     <div className="min-h-screen md:grid md:grid-cols-[240px_1fr]">
-      <aside className="relative z-30 bg-brand p-4 text-white md:sticky md:top-0 md:h-screen md:p-5">
+      <aside className="relative z-30 flex flex-col bg-brand-dark p-4 text-white md:sticky md:top-0 md:h-screen md:p-5">
         <AccountMenu />
         <nav className="mt-4 flex flex-wrap gap-1.5 text-[15px] md:mt-8 md:flex-col md:flex-nowrap">
           <NavLink to="/admin" end className={item}>Fiches clients</NavLink>
@@ -301,6 +300,11 @@ function AdminShell() {
           <NavLink to="/admin/statistiques" className={item}>Statistiques</NavLink>
           <NavLink to="/admin/sauvegardes" className={item}>Sauvegardes</NavLink>
         </nav>
+        <div className="mt-auto hidden rounded-2xl bg-white/10 p-4 text-sm leading-6 md:block">
+          <strong className="block font-display text-base">{cabinets[0].court}</strong>
+          <a href={telHref(cabinets[0].telephone)} className="font-bold text-brand-accent hover:underline">{cabinets[0].telephone}</a>
+          {cabinets[0].horaires.map((h) => <div key={h.jours} className="opacity-85"><span className="font-bold">{h.jours}</span><br />{h.heures}</div>)}
+        </div>
       </aside>
       <main className="min-w-0 p-4 md:p-10"><Outlet /></main>
     </div>

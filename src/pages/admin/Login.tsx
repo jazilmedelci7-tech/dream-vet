@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api, errMsg } from '../../api'
 import { Logo } from '../../components/Layout'
+import { site } from '../../site'
 
 export default function Login() {
   const nav = useNavigate()
@@ -27,9 +28,9 @@ export default function Login() {
     try { if (creation) await api.setupPassword(pw, code); else await api.login(pw); nav('/admin') } catch (error) { setErr(errMsg(error)); setBusy(false) }
   }
   return (
-    <div className="flex min-h-screen items-center justify-center bg-brand p-4">
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-brand-soft via-white to-brand-light p-4">
       <form onSubmit={submit} className="card w-full max-w-sm animate-pop text-center">
-        <Logo variant="blue" className="mx-auto mb-4 h-24" />
+        {site.logoLarge ? <Logo variant="wide" className="mx-auto mb-4 h-16 w-auto" /> : <Logo variant="blue" className="mx-auto mb-4 h-24" />}
         <h1 className="mb-1 text-2xl font-extrabold">{creation ? 'Créer votre mot de passe' : 'Espace vétérinaire'}</h1>
         <p className="mb-5 text-sm text-brand-muted">{creation ? 'Première connexion : choisissez le mot de passe qui protégera vos fiches. Notez-le bien.' : 'Accès réservé au cabinet.'}</p>
         {creation && status?.needsCode && (<>
@@ -43,7 +44,7 @@ export default function Login() {
           <input id="pw2" type="password" className="input" value={pw2} onChange={(e) => { setPw2(e.target.value); setErr('') }} autoComplete="new-password" />
         </>)}
         {err && <p role="alert" className="mt-2 text-sm font-bold text-red-700">{err}</p>}
-        <button className="btn btn-primary mt-5 w-full disabled:opacity-60" disabled={busy || !pw || status === null || (creation && status.needsCode && !code)}>{busy ? 'Un instant…' : creation ? 'Créer mon mot de passe' : 'Se connecter'}</button>
+        <button className="btn btn-warm mt-5 w-full rounded-full disabled:opacity-60" disabled={busy || !pw || status === null || (creation && status.needsCode && !code)}>{busy ? 'Un instant…' : creation ? 'Créer mon mot de passe' : 'Se connecter'}</button>
       </form>
     </div>
   )
