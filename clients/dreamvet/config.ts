@@ -2,6 +2,7 @@
 // Construire le site avec  CLIENT=dreamvet  (voir VENDRE.md).
 
 import type { SiteConfig } from '../../src/siteTypes'
+import logoWide from './logo-wide.png'
 
 const horaires = [
   { jours: 'Samedi – Jeudi', heures: '9h – 22h' },
@@ -14,6 +15,7 @@ const config: SiteConfig = {
   signature: 'la clinique vétérinaire DreamVet',
   ville: 'Alger', // À CONFIRMER
   logoLarge: true,
+  logoWide,
   accroche: 'Vos compagnons méritent le meilleur',
   indicatifPays: '213',
   couleur: '#0C6FB0',

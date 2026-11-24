@@ -23,7 +23,7 @@ export function Logo({
 }) {
   return (
     <img
-      src={`/logo-${variant}.png`}
+      src={variant === "wide" ? (site.logoWide ?? "/logo-wide.png") : `/logo-${variant}.png`}
       alt={`Logo ${site.nom}`}
       className={className}
     />
@@ -63,10 +63,10 @@ export function Header() {
   const { pathname } = useLocation();
   useEffect(() => setOpen(false), [pathname]);
   return (
-    <header className="wrap flex flex-wrap items-center justify-between py-2.5 text-brand-dark md:py-3">
+    <header className="wrap flex flex-wrap items-center justify-between py-2.5 text-white md:py-3">
       <Brand size="h-11 md:h-14" />
       <button
-        className="rounded-full border-2 border-brand px-4 py-1.5 font-bold text-brand md:hidden"
+        className="rounded-full border-2 border-white/60 px-4 py-1.5 font-bold text-white md:hidden"
         aria-expanded={open}
         onClick={() => setOpen(!open)}
       >
@@ -81,7 +81,7 @@ export function Header() {
             to={to}
             end
             className={({ isActive }) =>
-              `rounded-full px-4 py-1.5 font-bold transition-colors ${isActive ? "bg-brand text-white" : "hover:bg-brand-soft"}`
+              `rounded-full px-4 py-1.5 font-bold transition-colors ${isActive ? "bg-brand-accent text-brand-dark" : "hover:bg-white/10"}`
             }
           >
             {label}
@@ -172,7 +172,7 @@ export function PublicLayout() {
   return (
     <>
       <div
-        className={`sticky top-0 z-40 border-b border-brand-line bg-white/95 backdrop-blur transition-shadow duration-300 ${scrolled ? "shadow-lg shadow-brand-dark/10" : ""}`}
+        className={`sticky top-0 z-40 border-b border-white/10 bg-brand-dark/95 backdrop-blur transition-shadow duration-300 ${scrolled ? "shadow-lg shadow-black/30" : ""}`}
       >
         <Header />
       </div>
@@ -186,9 +186,9 @@ export function PublicLayout() {
 
 export function PageHero({ title, text }: { title: string; text: string }) {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-brand-soft via-white to-brand-light pb-14 md:pb-16">
+    <div className="relative overflow-hidden bg-gradient-to-br from-brand-soft via-brand-light to-brand-soft pb-14 md:pb-16">
       <div aria-hidden="true" className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-brand-accent/25 md:h-80 md:w-80" />
-      <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 right-40 hidden h-48 w-48 rounded-full bg-brand-warm/20 md:block" />
+      <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 right-40 hidden h-48 w-48 rounded-full bg-brand-accent/25 md:block" />
       <div className="wrap relative pt-10 md:pt-14">
         <h1 className="animate-fade-up text-4xl font-bold text-brand-dark md:text-6xl">{title}</h1>
         <p className="mt-4 max-w-xl animate-fade-up text-lg text-brand-muted [animation-delay:150ms]">{text}</p>
@@ -303,7 +303,6 @@ function AdminShell() {
         <div className="mt-auto hidden rounded-2xl bg-white/10 p-4 text-sm leading-6 md:block">
           <strong className="block font-display text-base">{cabinets[0].court}</strong>
           <a href={telHref(cabinets[0].telephone)} className="font-bold text-brand-accent hover:underline">{cabinets[0].telephone}</a>
-          {cabinets[0].horaires.map((h) => <div key={h.jours} className="opacity-85"><span className="font-bold">{h.jours}</span><br />{h.heures}</div>)}
         </div>
       </aside>
       <main className="min-w-0 p-4 md:p-10"><Outlet /></main>

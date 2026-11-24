@@ -29,9 +29,9 @@ export default function Home() {
   const c = cabinets[0]
   return (
     <>
-      <section className="relative overflow-hidden bg-gradient-to-br from-brand-soft via-white to-brand-light">
+      <section className="relative overflow-hidden bg-gradient-to-br from-brand-soft via-brand-light to-brand-soft">
         <div aria-hidden="true" className="pointer-events-none absolute -left-24 top-40 h-72 w-72 rounded-full bg-brand-accent/20" />
-        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 right-1/3 h-56 w-56 rounded-full bg-brand-warm/20" />
+        <div aria-hidden="true" className="pointer-events-none absolute -bottom-20 right-1/3 h-56 w-56 rounded-full bg-brand-accent/25" />
         <div className="wrap relative grid items-center gap-10 py-12 md:grid-cols-[1.1fr_1fr] md:py-20">
           <div>
             <p className="mb-4 inline-block animate-fade-up rounded-full bg-white px-4 py-1.5 text-sm font-extrabold text-brand shadow-sm">Clinique vétérinaire · {site.ville}</p>

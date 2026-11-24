@@ -36,6 +36,8 @@ export interface SiteConfig {
   nom: string
   /** Le logo est une image large (nom + dessin) : l'en-tête l'affiche seule, sans répéter le nom */
   logoLarge?: boolean
+  /** Adresse de l'image large du logo (import dans config.ts) ; sinon /logo-wide.png */
+  logoWide?: string
   /** Facultatif : comment le cabinet se présente dans les messages WhatsApp (sinon le nom ci-dessus), ex. « le cabinet vétérinaire du Dr Martin » */
   signature?: string
   /** Ville ou région affichée sous le nom */
