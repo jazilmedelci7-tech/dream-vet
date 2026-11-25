@@ -126,40 +126,46 @@ function horairesFooter() {
 }
 
 export function Footer() {
+  const c0 = cabinets[0];
   return (
     <footer className="bg-brand-dark text-white">
-      <div className="wrap grid gap-8 py-10 text-sm leading-8 md:grid-cols-[2fr_1fr_1fr]">
+      <div className="wrap flex flex-col gap-6 border-b border-white/15 py-10 md:flex-row md:items-center md:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-widest text-brand-accent">Une question ? Un rendez-vous ?</p>
+          <a href={telHref(c0.telephone)} className="font-display text-4xl font-bold hover:underline md:text-6xl">{c0.telephone}</a>
+        </div>
+        <Link to="/contact" className="btn btn-warm self-start rounded-full px-8 text-base md:self-auto">Réserver une visite</Link>
+      </div>
+      <div className="wrap grid gap-10 py-10 text-sm leading-7 md:grid-cols-[1.3fr_1fr_1fr]">
         <div className="flex flex-col items-start gap-4">
-          {site.logoLarge ? <Logo variant="wide" className="h-16 w-auto" /> : <Logo className="h-20" />}
-          <div>
-            <strong className="text-lg">{site.nom}</strong>
+          {site.logoLarge ? <Logo variant="wide" className="h-14 w-auto" /> : <Logo className="h-16" />}
+          <div className="opacity-90">
+            <strong className="text-base">{site.nom}</strong>
             {cabinets.map((c) => (
-              <div key={c.id} className="mt-2 leading-6">
-                <strong>{c.court}</strong>
-                <br />
+              <div key={c.id} className="mt-1">
+                {cabinets.length > 1 && <strong>{c.court} · </strong>}
                 {c.adresse}
-                <br />
-                <a className="hover:underline" href={telHref(c.telephone)}>
-                  {c.telephone}
-                </a>
               </div>
             ))}
           </div>
         </div>
-        <div>
-          <strong>Naviguer</strong>
-          {links.map(([to, l]) => (
-            <Link key={to} to={to} className="block hover:underline">
-              {l}
-            </Link>
-          ))}
+        <div className="rounded-3xl bg-white/10 p-5 ring-1 ring-white/10">
+          <strong className="mb-1 block font-display text-lg">Nous recevons</strong>
+          {horairesFooter()}
         </div>
         <div>
-          <strong>Nous recevons</strong>
-          {horairesFooter()}
-          <Link to="/admin" className="block opacity-70 hover:opacity-100">
-            Espace vétérinaire
-          </Link>
+          <strong className="mb-1 block font-display text-lg">Pages</strong>
+          <div className="flex flex-wrap gap-2">
+            {links.map(([to, l]) => (
+              <Link key={to} to={to} className="rounded-full border border-white/30 px-4 py-1 hover:bg-white/15">{l}</Link>
+            ))}
+          </div>
+        </div>
+      </div>
+      <div className="border-t border-white/15">
+        <div className="wrap flex flex-wrap items-center justify-between gap-2 py-4 text-xs opacity-75">
+          <span>© {new Date().getFullYear()} {site.nom}</span>
+          <Link to="/admin" className="hover:underline">Espace vétérinaire</Link>
         </div>
       </div>
     </footer>
@@ -198,6 +204,7 @@ export function PageHero({ title, text }: { title: string; text: string }) {
       <div aria-hidden="true" className="pointer-events-none absolute -bottom-24 right-40 hidden h-48 w-48 rounded-full bg-brand-accent/25 md:block" />
       <div className="wrap relative pt-10 md:pt-14">
         <h1 className="animate-fade-up text-4xl font-bold text-brand-dark md:text-6xl">{title}</h1>
+        <span aria-hidden="true" className="mt-4 block h-1.5 w-20 rounded-full bg-brand-warm" />
         <p className="mt-4 max-w-xl animate-fade-up text-lg text-brand-muted [animation-delay:150ms]">{text}</p>
       </div>
     </div>

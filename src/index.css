@@ -8,7 +8,7 @@
   body { @apply overflow-x-hidden bg-brand-light font-sans text-brand-dark; }
 }
 @layer components {
-  .btn { @apply inline-block cursor-pointer rounded-xl px-6 py-3 text-[15px] font-bold transition duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand; }
+  .btn { @apply inline-block cursor-pointer rounded-full px-6 py-3 text-[15px] font-bold transition duration-200 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand; }
   .btn-primary { @apply bg-brand text-white; }
   .btn-warm { @apply bg-brand-warm text-brand-dark shadow-md shadow-brand-warm/30; }
   .btn-white { @apply border-2 border-white bg-white text-brand; }
@@ -16,9 +16,9 @@
   .btn-ghost { @apply border border-brand-line bg-white text-brand-dark; }
   .btn-danger { @apply border border-red-200 bg-white text-red-700 hover:bg-red-50; }
   .btn-sm { @apply px-3.5 py-2 text-sm; }
-  .card { @apply rounded-2xl border border-brand-line bg-white p-5 md:p-6; }
+  .card { @apply rounded-3xl border border-brand-line bg-white p-5 shadow-sm shadow-brand/5 md:p-7; }
   .label { @apply mb-1 block text-[13px] text-brand-muted; }
-  .input { @apply w-full rounded-lg border border-brand-line bg-white px-3 py-[11px] transition focus:border-brand focus:outline focus:outline-2 focus:outline-brand/40; }
+  .input { @apply w-full rounded-xl border-2 border-brand-line bg-white px-3.5 py-[10px] transition focus:border-brand focus:outline focus:outline-2 focus:outline-brand/40; }
   .wrap { @apply mx-auto w-full max-w-[1280px] px-5 md:px-16; }
   .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease-out, transform .7s ease-out; }
   .reveal.in { opacity: 1; transform: none; }
