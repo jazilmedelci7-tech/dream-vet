@@ -1,4 +1,4 @@
-import { Cta, Logo, PageHero } from '../components/Layout'
+import { Cta, PageHero } from '../components/Layout'
 import { Service, services } from '../services'
 import { Reveal } from '../ui'
 
@@ -21,22 +21,19 @@ export function Icon({ name, className }: { name: Service['icon']; className: st
   return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">{paths[name].map((d) => <path key={d} d={d} />)}</svg>
 }
 
-function ServiceCard({ s, delay }: { s: Service; delay: number }) {
+function ServiceRow({ s, n }: { s: Service; n: number }) {
+  const pair = n % 2 === 0
   return (
-    <Reveal delay={delay} className="h-full">
-      <article className="group flex h-full flex-col overflow-hidden rounded-3xl border-2 border-transparent bg-white shadow-sm transition duration-300 hover:-translate-y-1.5 hover:border-brand-accent hover:shadow-xl">
-        <div className="relative aspect-[16/9] overflow-hidden bg-gradient-to-br from-brand to-brand-accent">
-          {s.image
-            ? <img src={s.image} alt={s.title} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
-            : <>
-                <Logo className="pointer-events-none absolute -bottom-6 -right-4 h-40 opacity-15 transition duration-500 group-hover:scale-110" />
-                <div className="relative flex h-full items-center justify-center"><Icon name={s.icon} className="h-20 w-20 text-white transition duration-300 group-hover:scale-110" /></div>
-              </>}
+    <Reveal>
+      <article className={`grid items-stretch gap-6 md:gap-10 ${pair ? 'md:grid-cols-[1fr_300px]' : 'md:grid-cols-[300px_1fr]'}`}>
+        <div className={`relative flex min-h-[170px] items-center justify-center overflow-hidden rounded-[2rem] ${pair ? 'bg-brand-dark md:order-2' : 'bg-brand'} text-white`}>
+          <span aria-hidden="true" className="absolute -bottom-6 left-3 font-display text-[9rem] font-bold leading-none text-white/10">{String(n + 1).padStart(2, '0')}</span>
+          <Icon name={s.icon} className="relative h-20 w-20 text-white" />
         </div>
-        <div className="flex flex-1 flex-col p-5">
-          <h2 className="mb-1.5 text-2xl font-semibold">{s.title}</h2>
-          <p className="mb-3 leading-relaxed text-brand-muted">{s.text}</p>
-          <ul className="mt-auto grid gap-1.5 text-sm">{s.points.map((p) => <li key={p} className="flex gap-2"><span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-warm" />{p}</li>)}</ul>
+        <div className="flex flex-col justify-center py-1">
+          <h2 className="mb-2 text-3xl font-bold text-brand-dark md:text-4xl">{s.title}</h2>
+          <p className="mb-4 max-w-2xl text-lg leading-relaxed text-brand-muted">{s.text}</p>
+          <ul className="flex flex-wrap gap-2">{s.points.map((p) => <li key={p} className="rounded-full bg-brand-light px-4 py-1.5 text-sm font-bold text-brand-dark ring-1 ring-brand-line">{p}</li>)}</ul>
         </div>
       </article>
     </Reveal>
@@ -47,8 +44,8 @@ export default function Services() {
   return (
     <>
       <PageHero title="Nos soins" text="Radiologie, chirurgie, hospitalisation, gardiennage, vaccins et conseils : tout ce dont votre animal a besoin, réuni dans une seule clinique." />
-      <section className="wrap grid gap-6 py-14 sm:grid-cols-2 md:py-20 lg:grid-cols-3">
-        {services.map((s, i) => <ServiceCard key={s.title} s={s} delay={(i % 3) * 100} />)}
+      <section className="wrap grid gap-14 py-14 md:gap-16 md:py-20">
+        {services.map((s, i) => <ServiceRow key={s.title} s={s} n={i} />)}
       </section>
       <Cta />
     </>

@@ -61,17 +61,21 @@ export default function Home() {
       <Bandeau />
 
       <section className="wrap py-16 md:py-24">
-        <Reveal><h2 className="mb-2 text-4xl font-bold text-brand-dark md:text-5xl">Nos soins</h2><p className="mb-10 max-w-xl text-lg text-brand-muted">Six façons de prendre soin de votre animal, au même endroit.</p></Reveal>
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        <Reveal><h2 className="mb-2 text-4xl font-bold text-brand-dark md:text-5xl">Nos soins</h2><p className="mb-10 max-w-xl text-lg text-brand-muted">{services.length} façons de prendre soin de votre animal, au même endroit.</p></Reveal>
+        <Reveal><ol className="grid gap-x-12 border-t-2 border-brand-dark md:grid-cols-2">
           {services.map((s, i) => (
-            <Reveal key={s.title} delay={(i % 3) * 100} className="h-full">
-              <Link to="/services" className="group flex h-full gap-4 rounded-3xl border-2 border-transparent bg-white p-6 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-brand-accent hover:shadow-xl">
-                <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-brand text-white transition group-hover:bg-brand-warm group-hover:text-brand-dark"><Icon name={s.icon} className="h-7 w-7" /></span>
-                <span><span className="mb-1 block font-display text-xl font-semibold">{s.title}</span><span className="leading-relaxed text-brand-muted">{s.text}</span></span>
+            <li key={s.title} className="border-b border-brand-line">
+              <Link to="/services" className="group flex items-start gap-5 px-2 py-6 transition-colors duration-300 hover:bg-brand-light md:px-4">
+                <span className="w-12 shrink-0 font-display text-4xl font-bold leading-none text-brand-accent transition-colors group-hover:text-brand">{String(i + 1).padStart(2, '0')}</span>
+                <span className="flex-1">
+                  <span className="mb-1 flex items-center gap-2 font-display text-2xl font-semibold text-brand-dark"><Icon name={s.icon} className="h-6 w-6 text-brand" />{s.title}</span>
+                  <span className="block leading-relaxed text-brand-muted">{s.text}</span>
+                </span>
+                <span aria-hidden="true" className="mt-1 text-2xl text-brand-dark opacity-0 transition duration-300 group-hover:translate-x-1 group-hover:opacity-100">→</span>
               </Link>
-            </Reveal>
+            </li>
           ))}
-        </div>
+        </ol></Reveal>
       </section>
 
       <section className="bg-brand-dark py-16 text-white md:py-24"><div className="wrap">
