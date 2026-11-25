@@ -40,7 +40,7 @@ export function createApp() {
   // Site construit (npm run build à la racine) servi par le même serveur
   const index = path.join(config.distDir, 'index.html')
   if (fs.existsSync(index)) {
-    app.use(express.static(config.distDir, { index: false, maxAge: '1h' }))
+    app.use(express.static(config.distDir, { index: false, redirect: false, maxAge: '1h' }))
     app.use((req, res, next) => (req.method === 'GET' || req.method === 'HEAD' ? res.sendFile(index) : next()))
   }
 
