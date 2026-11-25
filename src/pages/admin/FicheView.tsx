@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { errMsg } from '../../api'
 import { ImageViewer, imgUrl } from '../../components/FicheImages'
 import { DonnerProduit } from '../../components/DonnerProduit'
-import { ageAnimalLabel, Fiche, fmt, fmtDA, memeClient, montantDu, nextRappel, rappelState, todayLocal } from '../../data'
+import { ageAnimalLabel, Fiche, fmt, fmtDA, memeClient, montantDu, montantPaye, nextRappel, rappelState, todayLocal } from '../../data'
 import { WhatsAppButton } from '../../components/WhatsAppButton'
 import { useStore } from '../../store'
 import { rappelMessage } from '../../whatsapp'
@@ -50,8 +50,15 @@ export default function FicheView() {
   const remove = async () => { setAsk(false); try { await deleteFiche(f.id); toast('Fiche supprimée'); nav('/admin') } catch (e) { toast(errMsg(e)) } }
   const autres = fiches.filter((x) => x.id !== f.id && memeClient(f, x))
   const du = montantDu(f)
-  const regler = async () => {
-    try { await saveFiche({ ...f, dus: '', dusNote: `Réglé le ${fmt(todayLocal())} (${fmtDA(du)})${f.dusNote ? ` · ${f.dusNote}` : ''}`.slice(0, 500) }, false); toast('Marqué comme réglé') } catch (e) { toast(errMsg(e)) }
+  const paye = montantPaye(f)
+  const [enc, setEnc] = useState('')
+  /** Enregistre un paiement : le montant est retiré de « reste à payer » et ajouté à « déjà payé ». */
+  const encaisser = async (montant: number) => {
+    const m = Math.min(Math.round(montant * 100) / 100, du)
+    if (!(m > 0)) { toast('Entre un montant valide'); return }
+    const reste = Math.round((du - m) * 100) / 100
+    const note = reste === 0 ? `Réglé le ${fmt(todayLocal())}${f.dusNote ? ` · ${f.dusNote}` : ''}`.slice(0, 500) : f.dusNote
+    try { await saveFiche({ ...f, dus: reste ? String(reste) : '', paye: String(Math.round((paye + m) * 100) / 100), dusNote: note }, false); setEnc(''); toast(reste === 0 ? 'Tout est réglé' : `${fmtDA(m)} encaissés`) } catch (e) { toast(errMsg(e)) }
   }
   const espece = f.espece === 'Autre' && f.precision ? f.precision : f.espece
 
@@ -170,11 +177,18 @@ export default function FicheView() {
       )}
 
       <section className={`card mt-6 ${du ? 'border-amber-400 bg-amber-50' : ''}`}>
-        <h2 className="mb-1 text-base font-bold">Dus</h2>
-        {du ? <p className="text-lg font-extrabold text-amber-900">Reste à payer : {fmtDA(du)}</p> : <p className="text-sm font-bold text-green-700">{f.dusNote?.startsWith('Réglé') ? '✓ Réglé' : 'Le client ne doit rien.'}</p>}
+        <h2 className="mb-1 text-base font-bold">Dus et paiements</h2>
+        <div className="flex flex-wrap items-baseline gap-x-8 gap-y-1">
+          {du ? <p className="text-lg font-extrabold text-amber-900">Reste à payer : {fmtDA(du)}</p> : <p className="text-sm font-bold text-green-700">{f.dusNote?.startsWith('Réglé') ? '✓ Réglé' : 'Le client ne doit rien.'}</p>}
+          {paye > 0 && <p className="text-lg font-extrabold text-green-700">Déjà payé : {fmtDA(paye)}</p>}
+        </div>
         {f.dusNote && <p className="mt-1 whitespace-pre-line text-sm text-brand-muted">{f.dusNote}</p>}
         <div className="mt-3 flex flex-wrap items-center gap-3">
-          {du > 0 && <button type="button" className="btn btn-primary btn-sm" onClick={() => void regler()}>✓ Marquer comme réglé</button>}
+          {du > 0 && (<>
+            <input aria-label="Montant encaissé (DA)" inputMode="decimal" className="input w-40" placeholder="Montant payé (DA)" value={enc} onChange={(e) => setEnc(e.target.value)} />
+            <button type="button" className="btn btn-primary btn-sm" onClick={() => void encaisser(parseFloat(enc.replace(',', '.')))}>Encaisser</button>
+            <button type="button" className="btn btn-ghost btn-sm" onClick={() => void encaisser(du)}>✓ Tout régler</button>
+          </>)}
           <Link to={`/admin/fiches/${f.id}/modifier`} className="text-sm font-bold text-brand hover:underline">Modifier</Link>
         </div>
       </section>

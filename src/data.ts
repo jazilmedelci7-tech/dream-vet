@@ -5,7 +5,7 @@ export interface Fiche {
   id: string; nom: string; prenom: string; age: string; telephone: string; adresse: string
   animal: string; espece: string; precision: string; race: string; sexe: string; sterilise: string
   ageAnimal: string; naissance: string; poids: string; robe: string; puce: string; tatouage: string
-  agressif?: boolean; dus?: string; dusNote?: string
+  agressif?: boolean; dus?: string; paye?: string; dusNote?: string
   antecedents: string[]; antecedentsNote: string; images: FicheImage[]; visites: Visite[]; createdAt?: string
 }
 export interface Rdv {
@@ -90,6 +90,7 @@ export function memeClient(a: Fiche, b: Fiche): boolean {
   return ta === tb || (!!ta && !!tb && (ta.endsWith(tb.slice(-9)) && tb.length >= 9))
 }
 /** Montant dû en nombre (0 si vide ou invalide). */
+export const montantPaye = (f: Pick<Fiche, 'paye'>) => { const n = parseFloat(String(f.paye ?? '').replace(',', '.')); return Number.isFinite(n) && n > 0 ? n : 0 }
 export const montantDu = (f: Pick<Fiche, 'dus'>) => { const n = parseFloat(String(f.dus ?? '').replace(',', '.')); return Number.isFinite(n) && n > 0 ? n : 0 }
 export const fmtDA = (n: number) => `${n.toLocaleString('fr-FR')} DA`
 

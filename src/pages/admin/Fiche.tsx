@@ -10,7 +10,7 @@ import { Chips, Confirm, ErrorBox, MultiChips, TagPicker, useToast } from '../..
 const today = todayLocal
 const blankVisite = (): Visite => ({ id: newId(), date: today(), motifs: [], vaccins: [], medicaments: [], rappel: '', note: '' })
 const blank = (): Fiche => ({
-  id: '', nom: '', prenom: '', age: '', agressif: false, dus: '', dusNote: '', telephone: '', adresse: '', animal: '', espece: '', precision: '', race: '',
+  id: '', nom: '', prenom: '', age: '', agressif: false, dus: '', paye: '', dusNote: '', telephone: '', adresse: '', animal: '', espece: '', precision: '', race: '',
   sexe: '', sterilise: '', ageAnimal: '', naissance: '', poids: '', robe: '', puce: '', tatouage: '',
   antecedents: [], antecedentsNote: '', images: [], visites: [blankVisite()],
 })
@@ -62,7 +62,7 @@ function FicheForm({ isNew, initial, initialEdit, initialCreated }: { isNew: boo
   const [newIds, setNewIds] = useState<string[]>(initialCreated)
 
   const esp = getEspece(f.espece)
-  const set = (k: 'nom' | 'prenom' | 'age' | 'telephone' | 'adresse' | 'animal' | 'precision' | 'race' | 'sexe' | 'sterilise' | 'ageAnimal' | 'naissance' | 'poids' | 'robe' | 'puce' | 'tatouage' | 'antecedentsNote' | 'dus' | 'dusNote') => (v: string) => setF({ ...f, [k]: v })
+  const set = (k: 'nom' | 'prenom' | 'age' | 'telephone' | 'adresse' | 'animal' | 'precision' | 'race' | 'sexe' | 'sterilise' | 'ageAnimal' | 'naissance' | 'poids' | 'robe' | 'puce' | 'tatouage' | 'antecedentsNote' | 'dus' | 'paye' | 'dusNote') => (v: string) => setF({ ...f, [k]: v })
   const setEspece = (nom: string) => {
     const e = getEspece(nom)
     if (nom !== f.espece) setAutreRobe(false)
@@ -188,10 +188,11 @@ function FicheForm({ isNew, initial, initialEdit, initialCreated }: { isNew: boo
       </section>
 
       <section className="card mt-6">
-        <h2 className="mb-1 text-lg font-bold">Dus (argent à payer)</h2>
+        <h2 className="mb-1 text-lg font-bold">Dus et paiements</h2>
         <p className="mb-4 text-sm text-brand-muted">Laisse vide si le client ne doit rien.</p>
-        <div className="grid gap-3.5 sm:grid-cols-[200px_1fr]">
-          <Field id="dus" label="Montant dû (DA)" inputMode="decimal" value={f.dus ?? ''} onChange={set('dus')} />
+        <div className="grid gap-3.5 sm:grid-cols-[200px_200px_1fr]">
+          <Field id="dus" label="Reste à payer (DA)" inputMode="decimal" value={f.dus ?? ''} onChange={set('dus')} />
+          <Field id="paye" label="Déjà payé (DA)" inputMode="decimal" value={f.paye ?? ''} onChange={set('paye')} />
           <Field id="dusnote" label="Remarque (facultatif)" maxLength={500} placeholder="Ex : reste à payer de la chirurgie du 12/11" value={f.dusNote ?? ''} onChange={set('dusNote')} />
         </div>
       </section>

@@ -54,6 +54,7 @@ const ficheSchema = new Schema(
     tatouage: { type: String, default: '' },
     agressif: { type: Boolean, default: false },
     dus: { type: String, default: '' },
+    paye: { type: String, default: '' },
     dusNote: { type: String, default: '' },
     antecedents: { type: [String], default: [] },
     antecedentsNote: { type: String, default: '' },

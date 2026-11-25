@@ -42,6 +42,7 @@ export const ficheSchema = z.object({
   tatouage: str(25),
   agressif: z.boolean().default(false),
   dus: z.string().trim().max(12).regex(/^\d*([.,]\d{1,2})?$/, 'Montant dû invalide (chiffres seulement)').default(''),
+  paye: z.string().trim().max(12).regex(/^\d*([.,]\d{1,2})?$/, 'Montant payé invalide (chiffres seulement)').default(''),
   dusNote: str(500),
   antecedents: z.array(z.string().trim().min(1).max(100)).max(40).default([]),
   antecedentsNote: str(3000),
