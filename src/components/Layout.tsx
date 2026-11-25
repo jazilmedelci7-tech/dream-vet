@@ -13,6 +13,7 @@ import { cabinets, telHref } from "../cabinets";
 import { site } from "../site";
 import { enAlerte, listRappels } from "../data";
 import { ErrorBox, Reveal } from "../ui";
+import { setMode, useMode } from "../messagerie";
 
 export function Logo({
   variant = "white",
@@ -111,7 +112,7 @@ function horairesFooter() {
         {h.jours} : {h.heures}
       </div>
     ));
-  if (memes) return <div>{liste(cabinets[0])}</div>;
+  if (memes) return <div>{cabinets[0].mention && <div className="font-bold text-brand-accent">{cabinets[0].mention}</div>}{liste(cabinets[0])}</div>;
   return (
     <>
       {cabinets.map((c) => (
@@ -293,6 +294,7 @@ function AdminShell() {
   const { pathname } = useLocation()
   const [alertesPharma, setAlertesPharma] = useState(0)
   useEffect(() => { api.produits().then((l) => setAlertesPharma(l.filter(enAlerte).length)).catch(() => setAlertesPharma(0)) }, [pathname])
+  const mode = useMode()
   const item = ({ isActive }: { isActive: boolean }) => `whitespace-nowrap rounded-lg px-3.5 py-2.5 transition-colors md:py-3 ${isActive ? 'bg-brand-accent font-bold text-brand-dark' : 'hover:bg-white/10'}`
   return (
     <div className="min-h-screen md:grid md:grid-cols-[240px_1fr]">
@@ -306,7 +308,15 @@ function AdminShell() {
           <NavLink to="/admin/statistiques" className={item}>Statistiques</NavLink>
           <NavLink to="/admin/sauvegardes" className={item}>Sauvegardes</NavLink>
         </nav>
-        <div className="mt-auto hidden rounded-2xl bg-white/10 p-4 text-sm leading-6 md:block">
+        <div className="mt-4 rounded-2xl bg-white/10 p-3 text-sm md:mt-auto">
+          <span className="mb-2 block text-[12px] opacity-80">Envoyer les messages par</span>
+          <div className="grid grid-cols-2 gap-1 rounded-xl bg-black/20 p-1" role="group" aria-label="Envoyer les messages par">
+            {(['whatsapp', 'sms'] as const).map((m) => (
+              <button key={m} type="button" aria-pressed={mode === m} onClick={() => setMode(m)} className={`rounded-lg px-2 py-1.5 font-bold transition-colors ${mode === m ? 'bg-brand-accent text-brand-dark' : 'hover:bg-white/10'}`}>{m === 'sms' ? 'SMS' : 'WhatsApp'}</button>
+            ))}
+          </div>
+        </div>
+        <div className="mt-4 hidden rounded-2xl bg-white/10 p-4 text-sm leading-6 md:block">
           <strong className="block font-display text-base">{cabinets[0].court}</strong>
           <a href={telHref(cabinets[0].telephone)} className="font-bold text-brand-accent hover:underline">{cabinets[0].telephone}</a>
         </div>

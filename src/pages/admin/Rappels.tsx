@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useMode } from '../../messagerie'
 import { WhatsAppButton } from '../../components/WhatsAppButton'
 import { fmt, listRappels, RappelItem } from '../../data'
 import { useStore } from '../../store'
@@ -27,6 +28,7 @@ function Section({ title, items, tone }: { title: string; items: RappelItem[]; t
 }
 
 export default function Rappels() {
+  const mode = useMode()
   const { fiches, loading, error, reload } = useStore()
   if (loading) return <p className="text-brand-muted">Chargement des rappels…</p>
   if (error) return <ErrorBox message={error} onRetry={reload} />
@@ -37,7 +39,7 @@ export default function Rappels() {
   return (
     <div className="animate-fade-in">
       <h1 className="mb-2 text-2xl font-extrabold md:text-3xl">Rappels à envoyer</h1>
-      <p className="mb-6 text-brand-muted">Clique sur « WhatsApp » : le message s'ouvre déjà écrit dans WhatsApp, il reste à appuyer sur « Envoyer ».</p>
+      <p className="mb-6 text-brand-muted">Clique sur « {mode === 'sms' ? 'SMS' : 'WhatsApp'} » : le message s'ouvre déjà écrit dans {mode === 'sms' ? "l'application de messages" : 'WhatsApp'}, il reste à appuyer sur « Envoyer ». (Tu changes WhatsApp / SMS dans le menu à gauche.)</p>
       {all.length === 0 && <div className="card text-center text-brand-muted">Aucun rappel dans les 30 prochains jours.</div>}
       <Section title="En retard" items={late} tone="text-red-700" />
       <Section title="Cette semaine" items={week} tone="text-amber-800" />

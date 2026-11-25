@@ -10,7 +10,7 @@ import { Icon } from './Services'
 const atouts = [
   { titre: 'Tout sous le même toit', texte: 'Radiologie, chirurgie, hospitalisation, vaccins : une seule adresse pour suivre votre animal de A à Z.' },
   { titre: 'Un carnet toujours à jour', texte: "Chaque animal a sa fiche : vaccins, traitements, visites. Rien ne se perd, même après des années." },
-  { titre: "Ouverts jusqu'à 22 h", texte: "Du samedi au jeudi dès 9 h, et le vendredi en deux temps : vous trouvez un moment qui vous arrange." },
+  { titre: "Ouverts jusqu'à 22 h", texte: "Ouvert 7j/7 : du samedi au jeudi de 9h à 22h, et le vendredi de 10h à midi puis de 15h à 22h." },
 ]
 
 /** Bandeau défilant avec les soins proposés. */
@@ -44,7 +44,7 @@ export default function Home() {
               <Link to="/services" className="btn btn-ghost rounded-full px-8">Découvrir nos soins</Link>
             </div>
             <div className="mt-8 flex animate-fade-up flex-wrap gap-3 text-sm font-bold [animation-delay:400ms]">
-              <span className="rounded-full bg-white px-4 py-2 shadow-sm">Ouvert tous les jours</span>
+              <span className="rounded-full bg-white px-4 py-2 shadow-sm">Ouvert 7j/7</span>
               <a href={telHref(c.telephone)} className="rounded-full bg-brand px-4 py-2 text-white shadow-sm hover:bg-brand-dark">{c.telephone}</a>
             </div>
           </div>

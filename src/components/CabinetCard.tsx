@@ -4,6 +4,7 @@ import { Reveal } from '../ui'
 export function Horaires({ c }: { c: Cabinet }) {
   return (
     <div>
+      {c.mention && <p className="mb-2 inline-block rounded-full bg-brand-accent/30 px-3 py-1 text-sm font-extrabold text-brand-dark">{c.mention}</p>}
       {c.horaires.map((h) => (
         <div key={h.jours} className="grid grid-cols-[150px_1fr] border-t border-brand-line py-2.5 text-sm"><strong>{h.jours}</strong><span className="text-brand-muted">{h.heures}</span></div>
       ))}

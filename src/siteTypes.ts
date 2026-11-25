@@ -13,6 +13,8 @@ export interface Cabinet {
   adresse: string
   telephone: string
   email: string
+  /** Facultatif : mention affichée au-dessus des horaires, ex. « Ouvert 7j/7 » */
+  mention?: string
   horaires: { jours: string; heures: string }[]
   /** Texte envoyé à Google Maps pour afficher la carte (en général l'adresse) */
   carte: string

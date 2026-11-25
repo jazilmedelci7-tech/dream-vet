@@ -21,6 +21,12 @@ export function waLink(tel: string, text: string): string | null {
   return n ? `https://wa.me/${n}?text=${encodeURIComponent(text)}` : null
 }
 
+/** Lien SMS qui ouvre l'application de messages avec le texte déjà écrit. */
+export function smsLink(tel: string, text: string): string | null {
+  const n = waNumber(tel)
+  return n ? `sms:+${n}?body=${encodeURIComponent(text)}` : null
+}
+
 const qui = site.signature ?? site.nom
 const contacts = () => cabinets.map((c) => `${c.court} : ${c.telephone}`).join(' · ')
 
