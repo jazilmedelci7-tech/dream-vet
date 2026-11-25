@@ -212,25 +212,32 @@ export function PageHero({ title, text }: { title: string; text: string }) {
 }
 
 export function Cta() {
+  const etapes = [
+    ['Vous nous appelez', 'ou vous réservez en ligne en une minute'],
+    ['On vous rappelle', 'pour fixer ensemble l\'heure qui vous arrange'],
+    ['Vous venez nous voir', 'et votre compagnon est pris en charge'],
+  ];
   return (
-    <section className="wrap py-12 md:py-16">
-      <Reveal>
-        <div className="relative flex flex-col items-start justify-between gap-6 overflow-hidden rounded-[2rem] bg-brand-dark p-8 text-white md:flex-row md:items-center md:p-12">
-          <div aria-hidden="true" className="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-brand-accent/30" />
-          <Logo className="pointer-events-none absolute -bottom-6 right-6 hidden h-40 animate-float md:block" />
-          <div className="relative">
-            <h2 className="mb-2 text-3xl font-bold md:text-4xl">Votre compagnon a besoin de nous ?</h2>
-            <p className="text-lg opacity-90">
-              Appelez-nous au{" "}
-              <a className="font-extrabold text-brand-accent hover:underline" href={telHref(cabinets[0].telephone)}>{cabinets[0].telephone}</a>{" "}
-              ou envoyez votre demande en ligne.
-            </p>
+    <section className="bg-brand-warm text-brand-dark">
+      <div className="wrap py-12 md:py-16">
+        <Reveal>
+          <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.5fr_auto]">
+            <h2 className="text-3xl font-bold leading-tight md:text-4xl">Un rendez-vous pour votre compagnon ?</h2>
+            <ol className="grid gap-4 sm:grid-cols-3">
+              {etapes.map(([t, d], i) => (
+                <li key={t} className="rounded-2xl bg-white/45 p-4">
+                  <span className="mb-1 block font-display text-3xl font-bold leading-none">{i + 1}</span>
+                  <strong className="block">{t}</strong>
+                  <span className="text-sm">{d}</span>
+                </li>
+              ))}
+            </ol>
+            <Link to="/contact" className="btn rounded-full bg-brand-dark px-8 text-center text-base text-white">
+              Réserver une visite
+            </Link>
           </div>
-          <Link to="/contact" className="btn btn-warm relative rounded-full px-8 md:mr-36">
-            Réserver une visite
-          </Link>
-        </div>
-      </Reveal>
+        </Reveal>
+      </div>
     </section>
   );
 }

@@ -78,17 +78,28 @@ export default function Home() {
         </ol></Reveal>
       </section>
 
-      <section className="bg-brand-dark py-16 text-white md:py-24"><div className="wrap">
-        <Reveal><h2 className="mb-10 text-4xl font-bold md:text-5xl">Pourquoi nous faire confiance</h2></Reveal>
-        <div className="grid gap-8 md:grid-cols-3">
+      <section className="wrap grid gap-10 py-16 md:py-24 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+        <Reveal><div className="lg:sticky lg:top-28">
+          <p className="mb-3 text-sm font-extrabold uppercase tracking-widest text-brand">Pourquoi les familles reviennent</p>
+          <h2 className="text-4xl font-bold leading-tight text-brand-dark md:text-5xl">Une clinique qui prend le temps</h2>
+          <p className="mt-4 max-w-md text-lg text-brand-muted">Un lieu, une équipe, un carnet de santé qui suit votre animal toute sa vie.</p>
+        </div></Reveal>
+        <ol className="relative grid gap-6 before:absolute before:bottom-6 before:left-[27px] before:top-6 before:w-0.5 before:border-l-2 before:border-dashed before:border-brand-accent">
           {atouts.map((a, i) => (
-            <Reveal key={a.titre} delay={i * 120}><div className="h-full rounded-3xl bg-white/10 p-7 ring-1 ring-white/15">
-              <span className="mb-4 grid h-10 w-10 place-items-center rounded-full bg-brand-accent font-display text-lg font-bold text-brand-dark">{i + 1}</span>
-              <h3 className="mb-2 text-2xl font-semibold">{a.titre}</h3><p className="leading-relaxed opacity-85">{a.texte}</p>
-            </div></Reveal>
+            <li key={a.titre}><Reveal delay={i * 120}><div className="relative flex gap-5">
+              <span className="relative z-10 grid h-14 w-14 shrink-0 place-items-center rounded-full bg-brand-dark text-brand-accent ring-8 ring-brand-light">
+                {i === 0 && <Icon name="chirurgie" className="h-7 w-7" />}
+                {i === 1 && <Icon name="dossier" className="h-7 w-7" />}
+                {i === 2 && <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" className="h-7 w-7" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>}
+              </span>
+              <div className="flex-1 rounded-3xl border border-brand-line bg-white p-6 shadow-sm">
+                <h3 className="mb-1 text-2xl font-semibold text-brand-dark">{a.titre}</h3>
+                <p className="leading-relaxed text-brand-muted">{a.texte}</p>
+              </div>
+            </div></Reveal></li>
           ))}
-        </div>
-      </div></section>
+        </ol>
+      </section>
 
       <section className="wrap grid gap-8 py-16 md:grid-cols-2 md:py-24">
         <Reveal><div className="h-full rounded-3xl bg-white p-7 shadow-sm md:p-9">
