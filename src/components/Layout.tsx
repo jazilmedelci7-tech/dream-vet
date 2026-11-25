@@ -134,7 +134,6 @@ export function Footer() {
           <p className="text-sm font-bold uppercase tracking-widest text-brand-accent">Une question ? Un rendez-vous ?</p>
           <a href={telHref(c0.telephone)} className="font-display text-4xl font-bold hover:underline md:text-6xl">{c0.telephone}</a>
         </div>
-        <Link to="/contact" className="btn btn-warm self-start rounded-full px-8 text-base md:self-auto">Réserver une visite</Link>
       </div>
       <div className="wrap grid gap-10 py-10 text-sm leading-7 md:grid-cols-[1.3fr_1fr_1fr]">
         <div className="flex flex-col items-start gap-4">
@@ -212,32 +211,22 @@ export function PageHero({ title, text }: { title: string; text: string }) {
 }
 
 export function Cta() {
-  const etapes = [
-    ['Vous nous appelez', 'ou vous réservez en ligne en une minute'],
-    ['On vous rappelle', 'pour fixer ensemble l\'heure qui vous arrange'],
-    ['Vous venez nous voir', 'et votre compagnon est pris en charge'],
-  ];
   return (
-    <section className="bg-brand-warm text-brand-dark">
-      <div className="wrap py-12 md:py-16">
-        <Reveal>
-          <div className="grid items-center gap-8 lg:grid-cols-[1fr_1.5fr_auto]">
-            <h2 className="text-3xl font-bold leading-tight md:text-4xl">Un rendez-vous pour votre compagnon ?</h2>
-            <ol className="grid gap-4 sm:grid-cols-3">
-              {etapes.map(([t, d], i) => (
-                <li key={t} className="rounded-2xl bg-white/45 p-4">
-                  <span className="mb-1 block font-display text-3xl font-bold leading-none">{i + 1}</span>
-                  <strong className="block">{t}</strong>
-                  <span className="text-sm">{d}</span>
-                </li>
-              ))}
-            </ol>
-            <Link to="/contact" className="btn rounded-full bg-brand-dark px-8 text-center text-base text-white">
-              Réserver une visite
-            </Link>
+    <section className="wrap py-12 md:py-16">
+      <Reveal>
+        <div className="relative flex flex-col items-start justify-between gap-6 overflow-hidden rounded-[2.5rem] bg-gradient-to-r from-brand-soft to-brand-light p-8 ring-1 ring-brand-line md:flex-row md:items-center md:p-12">
+          <div aria-hidden="true" className="pointer-events-none absolute -left-10 -top-12 h-40 w-40 rounded-full bg-brand-accent/25" />
+          <div className="relative max-w-xl">
+            <p className="mb-2 text-sm font-extrabold uppercase tracking-widest text-brand">Rendez-vous</p>
+            <h2 className="mb-2 text-3xl font-bold text-brand-dark md:text-4xl">On s'occupe de votre compagnon.</h2>
+            <p className="text-lg text-brand-muted">Dites-nous ce qui l'amène : nous vous rappelons pour fixer l'heure.</p>
           </div>
-        </Reveal>
-      </div>
+          <div className="relative flex flex-wrap gap-3">
+            <Link to="/contact" className="btn btn-warm rounded-full px-8">Réserver une visite</Link>
+            <a href={telHref(cabinets[0].telephone)} className="btn btn-ghost rounded-full px-8">Appeler</a>
+          </div>
+        </div>
+      </Reveal>
     </section>
   );
 }
