@@ -13,7 +13,7 @@ const api = { '/api': `http://localhost:${apiPort()}` }
 export default defineConfig(({ mode }) => {
   // Client choisi : variable CLIENT (fichier .env à la racine, ou variable d'environnement de l'hébergeur).
   // Chaque client a son dossier clients/<nom>/ avec config.ts et public/ (logos, photos).
-  const client = (loadEnv(mode, process.cwd(), '')['CLIENT'] || 'modele').trim()
+  const client = (loadEnv(mode, process.cwd(), '')['CLIENT'] || 'dreamvet').trim()
   const dir = path.resolve('clients', client)
   if (!fs.existsSync(path.join(dir, 'config.ts'))) {
     throw new Error(`Client introuvable : le dossier clients/${client}/config.ts n'existe pas. Vérifie la variable CLIENT.`)
