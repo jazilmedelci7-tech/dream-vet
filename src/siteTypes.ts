@@ -48,6 +48,8 @@ export interface SiteConfig {
   indicatifPays: string
   /** Couleur principale du site (format #RRGGBB). Les autres teintes sont calculées. */
   couleur: string
+  /** Facultatif : couleurs particulières (#RRGGBB). entete = fond de l'en-tête (et derrière le logo), enteteTexte = couleur du texte dessus */
+  theme?: { entete?: string; enteteTexte?: string; sombre?: string; accent?: string; chaud?: string }
   cabinets: Cabinet[]
   services: Service[]
   /** Avis de vrais clients. Liste vide = la section est masquée. */

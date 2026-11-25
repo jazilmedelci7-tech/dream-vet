@@ -7,7 +7,7 @@ import { palette, site } from './site'
 import './index.css'
 
 // Couleur du client appliquée avant l'affichage
-for (const [k, v] of Object.entries(palette(site.couleur))) document.documentElement.style.setProperty(k, v)
+for (const [k, v] of Object.entries(palette(site.couleur, site.theme))) document.documentElement.style.setProperty(k, v)
 document.title = site.titre
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

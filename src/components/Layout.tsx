@@ -21,13 +21,18 @@ export function Logo({
   variant?: "white" | "blue" | "wide";
   className?: string;
 }) {
-  return (
+  const img = (
     <img
       src={variant === "wide" ? (site.logoWide ?? "/logo-wide.png") : `/logo-${variant}.png`}
       alt={`Logo ${site.nom}`}
       className={className}
     />
   );
+  // Thème avec fond d'en-tête coloré : le logo garde toujours son fond, même sur du blanc ou du foncé
+  if (variant === "wide" && site.theme?.entete) {
+    return <span className="flex max-w-full rounded-2xl p-1.5" style={{ background: site.theme.entete }}>{img}</span>;
+  }
+  return img;
 }
 
 export function Brand({ size = "h-12" }: { size?: string }) {
@@ -63,10 +68,10 @@ export function Header() {
   const { pathname } = useLocation();
   useEffect(() => setOpen(false), [pathname]);
   return (
-    <header className="wrap flex flex-wrap items-center justify-between py-2.5 text-white md:py-3">
+    <header className="wrap flex flex-wrap items-center justify-between py-2.5 text-white md:py-3" style={site.theme?.enteteTexte ? { color: site.theme.enteteTexte } : undefined}>
       <Brand size="h-11 md:h-14" />
       <button
-        className="rounded-full border-2 border-white/60 px-4 py-1.5 font-bold text-white md:hidden"
+        className="rounded-full border-2 border-current px-4 py-1.5 font-bold md:hidden"
         aria-expanded={open}
         onClick={() => setOpen(!open)}
       >
@@ -81,13 +86,13 @@ export function Header() {
             to={to}
             end
             className={({ isActive }) =>
-              `rounded-full px-4 py-1.5 font-bold transition-colors ${isActive ? "bg-brand-accent text-brand-dark" : "hover:bg-white/10"}`
+              `rounded-full px-4 py-1.5 font-bold transition-colors ${isActive ? (site.theme?.entete ? "bg-white text-brand-dark" : "bg-brand-accent text-brand-dark") : (site.theme?.entete ? "hover:bg-black/10" : "hover:bg-white/10")}`
             }
           >
             {label}
           </NavLink>
         ))}
-        <Link to="/contact" className="btn btn-warm rounded-full text-center">
+        <Link to="/contact" className={`btn rounded-full text-center ${site.theme?.entete ? "bg-brand-dark text-white" : "btn-warm"}`}>
           Réserver une visite
         </Link>
       </nav>
@@ -172,7 +177,8 @@ export function PublicLayout() {
   return (
     <>
       <div
-        className={`sticky top-0 z-40 border-b border-white/10 bg-brand-dark/95 backdrop-blur transition-shadow duration-300 ${scrolled ? "shadow-lg shadow-black/30" : ""}`}
+        className={`sticky top-0 z-40 border-b border-white/10 backdrop-blur transition-shadow duration-300 ${site.theme?.entete ? "" : "bg-brand-dark/95"} ${scrolled ? "shadow-lg shadow-black/30" : ""}`}
+        style={site.theme?.entete ? { background: site.theme.entete } : undefined}
       >
         <Header />
       </div>

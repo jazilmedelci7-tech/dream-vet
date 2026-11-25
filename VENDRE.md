@@ -13,6 +13,7 @@ Dossiers actuels :
 |---|---|
 | `clients/modele/` | Modèle vide et neutre. **Ne l'utilise jamais pour un vrai client : copie-le.** |
 | `clients/dreamvet/` | Clinique Vétérinaire DreamVet. |
+| `clients/dreamvet-orange/` | DreamVet, version orange (autre thème et autre logo). Lancer avec `CLIENT=dreamvet-orange`. |
 
 ## Nouveau client : étape par étape
 
