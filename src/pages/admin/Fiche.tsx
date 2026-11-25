@@ -5,18 +5,19 @@ import { errMsg } from '../../api'
 import { FicheImages, Pending } from '../../components/FicheImages'
 import { addToDate, ageFrom, Fiche, fmt, newId, todayLocal, Visite } from '../../data'
 import { useStore } from '../../store'
+import { ProduitsVisite } from '../../components/ProduitsVisite'
 import { Chips, Confirm, ErrorBox, MultiChips, TagPicker, useToast } from '../../ui'
 
 const today = todayLocal
-const blankVisite = (): Visite => ({ id: newId(), date: today(), motifs: [], vaccins: [], medicaments: [], rappel: '', note: '' })
+const blankVisite = (): Visite => ({ id: newId(), date: today(), motifs: [], vaccins: [], medicaments: [], produits: [], rappel: '', note: '' })
 const blank = (): Fiche => ({
   id: '', nom: '', prenom: '', age: '', agressif: false, dus: '', paye: '', dusNote: '', telephone: '', adresse: '', animal: '', espece: '', precision: '', race: '',
   sexe: '', sterilise: '', ageAnimal: '', naissance: '', poids: '', robe: '', puce: '', tatouage: '',
   antecedents: [], antecedentsNote: '', images: [], visites: [blankVisite()],
 })
 /** Fiches enregistrées avant l'ajout de certains champs : on complète avec des valeurs vides. */
-const isEmptyVisite = (v: Visite) => !v.motifs.length && !v.vaccins.length && !v.medicaments.length && !v.rappel && !v.note.trim()
-const normalize = (f: Fiche): Fiche => ({ ...blank(), ...f, visites: (f.visites ?? []).map((v) => ({ ...v, medicaments: v.medicaments ?? [], rappel: v.rappel ?? '' })) })
+const isEmptyVisite = (v: Visite) => !v.motifs.length && !v.vaccins.length && !v.medicaments.length && !(v.produits ?? []).length && !v.rappel && !v.note.trim()
+const normalize = (f: Fiche): Fiche => ({ ...blank(), ...f, visites: (f.visites ?? []).map((v) => ({ ...v, medicaments: v.medicaments ?? [], produits: v.produits ?? [], rappel: v.rappel ?? '' })) })
 
 function Field({ id, label, value, onChange, wide, required, type = 'text', ...rest }: { id: string; label: string; value: string; onChange: (v: string) => void; wide?: boolean; required?: boolean; type?: string } & Record<string, unknown>) {
   return (
@@ -166,7 +167,7 @@ function FicheForm({ isNew, initial, initialEdit, initialCreated }: { isNew: boo
               <button type="button" className="btn btn-danger btn-sm" onClick={() => { setF({ ...f, visites: f.visites.filter((x) => x.id !== v.id) }); setEditIds(editIds.filter((x) => x !== v.id)) }}>{newIds.includes(v.id) ? 'Retirer cette visite' : 'Supprimer cette visite'}</button>
             </div>
             <p className="label">Motif(s) / diagnostic</p>
-            <TagPicker label="Motifs de la visite" options={motifs} more={motifsMore} sharedList="dl-motifs" placeholder="Écrire un motif ou une maladie…" value={v.motifs} onChange={(m) => upV(v.id, { motifs: m, vaccins: m.some((x) => motifsVaccin.includes(x)) ? v.vaccins : [], rappel: m.some((x) => motifsRappel.includes(x)) ? v.rappel : '' })} />
+            <TagPicker label="Motifs de la visite" options={motifs} more={motifsMore} sharedList="dl-motifs" placeholder="Écrire un motif ou une maladie…" value={v.motifs} onChange={(m) => upV(v.id, { motifs: m, vaccins: m.some((x) => motifsVaccin.includes(x)) ? v.vaccins : [], produits: m.some((x) => motifsVaccin.includes(x)) ? v.produits : (v.produits ?? []).filter((u) => u.type !== 'Vaccin'), rappel: m.some((x) => motifsRappel.includes(x)) ? v.rappel : '' })} />
             {showVaccins(v) && <div className="mt-3 animate-fade-up"><p className="label">Vaccin(s) effectué(s)</p><MultiChips label="Vaccins" options={esp!.vaccins} value={v.vaccins} onChange={(x) => upV(v.id, { vaccins: x })} /></div>}
             {showRappel(v) && (
               <div className="mt-3 animate-fade-up">
@@ -180,7 +181,8 @@ function FicheForm({ isNew, initial, initialEdit, initialCreated }: { isNew: boo
                 </div>
               </div>
             )}
-            <div className="mt-3"><p className="label">Médicaments prescrits</p>
+            <ProduitsVisite visite={v} espece={f.espece} avant={initial.visites} toutes={f.visites} onChange={(p) => upV(v.id, p)} />
+            <div className="mt-3"><p className="label">Autres médicaments prescrits (hors pharmacie)</p>
               <TagPicker label="Médicaments prescrits" options={medicamentsOptions} more={medicamentsMore} sharedList="dl-meds" value={v.medicaments} onChange={(m) => upV(v.id, { medicaments: m })} placeholder="Nom et dose, ex : Amoxicilline 250 mg, 2×/jour, 7 jours" /></div>
             <div className="mt-3"><label className="label" htmlFor={`n${v.id}`}>Observations / diagnostic (facultatif)</label><textarea id={`n${v.id}`} rows={2} className="input" value={v.note} onChange={(e) => upV(v.id, { note: e.target.value })} /></div>
           </div>

@@ -1,6 +1,7 @@
 export const imageTypes = ['Radiographie', 'Échographie', 'Analyse', 'Photo', 'Autre']
 export interface FicheImage { id: string; file: string; type: string; legende: string; date: string }
-export interface Visite { id: string; date: string; motifs: string[]; vaccins: string[]; medicaments: string[]; rappel: string; note: string }
+export interface ProduitUtilise { produitId: string; nom: string; type: string; unite: string; quantite: number; note: string }
+export interface Visite { id: string; date: string; motifs: string[]; vaccins: string[]; medicaments: string[]; produits?: ProduitUtilise[]; rappel: string; note: string }
 export interface Fiche {
   id: string; nom: string; prenom: string; age: string; telephone: string; adresse: string
   animal: string; espece: string; precision: string; race: string; sexe: string; sterilise: string

@@ -9,6 +9,19 @@ const toJSON = {
   },
 }
 
+/** Produit de la pharmacie utilisé pendant une visite : le stock baisse de cette quantité à l'enregistrement. */
+const produitUtiliseSchema = new Schema(
+  {
+    produitId: { type: String, required: true },
+    nom: { type: String, default: '' },
+    type: { type: String, default: '' },
+    unite: { type: String, default: '' },
+    quantite: { type: Number, required: true },
+    note: { type: String, default: '' },
+  },
+  { _id: false },
+)
+
 const visiteSchema = new Schema(
   {
     id: { type: String, required: true },
@@ -16,6 +29,7 @@ const visiteSchema = new Schema(
     motifs: { type: [String], default: [] },
     vaccins: { type: [String], default: [] },
     medicaments: { type: [String], default: [] },
+    produits: { type: [produitUtiliseSchema], default: [] },
     rappel: { type: String, default: '' },
     note: { type: String, default: '' },
   },

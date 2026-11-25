@@ -12,12 +12,22 @@ const required = (msg: string, max: number, min = 1) =>
 const str = (max: number) => z.string().trim().max(max).default('')
 const day = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Date invalide').or(z.literal('')).default('')
 
+const produitUtilise = z.object({
+  produitId: z.string().regex(/^[a-f0-9]{24}$/i, 'Produit invalide'),
+  nom: str(100),
+  type: str(20),
+  unite: str(20),
+  quantite: z.coerce.number().finite().gt(0, 'La quantité doit être supérieure à 0').max(100_000),
+  note: str(200),
+})
+
 const visite = z.object({
   id: z.string().trim().min(1).max(40),
   date: day,
   motifs: z.array(z.string().trim().max(60)).max(30).default([]),
   vaccins: z.array(z.string().trim().max(100)).max(30).default([]),
   medicaments: z.array(z.string().trim().min(1).max(120)).max(40).default([]),
+  produits: z.array(produitUtilise).max(40).default([]),
   rappel: day,
   note: str(2000),
 })

@@ -37,6 +37,7 @@ export default function FicheView() {
   const [all, setAll] = useState(false)
   const [ask, setAsk] = useState(false)
   const [donner, setDonner] = useState(false)
+  const [enc, setEnc] = useState('')
   const [view, setView] = useState<{ src: string; title: string } | null>(null)
   if (loading) return <p className="text-brand-muted">Chargement de la fiche…</p>
   if (error) return <ErrorBox message={error} onRetry={reload} />
@@ -51,7 +52,6 @@ export default function FicheView() {
   const autres = fiches.filter((x) => x.id !== f.id && memeClient(f, x))
   const du = montantDu(f)
   const paye = montantPaye(f)
-  const [enc, setEnc] = useState('')
   /** Enregistre un paiement : le montant est retiré de « reste à payer » et ajouté à « déjà payé ». */
   const encaisser = async (montant: number) => {
     const m = Math.min(Math.round(montant * 100) / 100, du)

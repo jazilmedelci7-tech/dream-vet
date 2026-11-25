@@ -138,9 +138,12 @@ pharmacie.post('/fiches/:id/soins', async (req, res) => {
     const lotTxt = p.lot ? `Lot ${p.lot}` : ''
     let v = fiche.visites.find((x) => x.date === date)
     if (!v) {
-      fiche.visites.push({ id: randomUUID(), date, motifs: [], vaccins: [], medicaments: [], rappel: '', note: '' })
+      fiche.visites.push({ id: randomUUID(), date, motifs: [], vaccins: [], medicaments: [], produits: [], rappel: '', note: '' })
       v = fiche.visites[fiche.visites.length - 1]!
     }
+    const deja = v.produits.find((u) => u.produitId === String(p._id))
+    if (deja) deja.quantite = arrondi(deja.quantite + q)
+    else v.produits.push({ produitId: String(p._id), nom: p.nom, type: p.type, unite: p.unite, quantite: q, note: d.note })
     if (p.type === 'Vaccin') {
       if (!v.vaccins.includes(nomVaccin)) v.vaccins.push(nomVaccin)
       if (!v.motifs.includes('Vaccination')) v.motifs.push('Vaccination')
@@ -158,3 +161,44 @@ pharmacie.post('/fiches/:id/soins', async (req, res) => {
   }
   res.json({ fiche, produit: p })
 })
+
+
+type Util = { produitId: string; quantite: number }
+type VisiteStock = { produits?: Util[] | null }
+const totaux = (visites: VisiteStock[] | undefined) => {
+  const m = new Map<string, number>()
+  for (const v of visites ?? []) for (const u of v.produits ?? []) m.set(u.produitId, arrondi((m.get(u.produitId) ?? 0) + u.quantite))
+  return m
+}
+
+/**
+ * Met le stock de la pharmacie d'accord avec les produits notés dans les visites d'une fiche.
+ * Compare l'ancienne fiche et la nouvelle : produit ajouté → le stock baisse, retiré → le stock remonte.
+ * Si le stock ne suffit pas, rien n'est changé et un message d'erreur est renvoyé.
+ */
+export async function synchroniserStock(
+  ancien: VisiteStock[] | undefined,
+  nouveau: VisiteStock[],
+  fiche: { id?: string; animal: string; nom: string; prenom?: string },
+): Promise<string | null> {
+  const avant = totaux(ancien)
+  const apres = totaux(nouveau)
+  const ids = new Set([...avant.keys(), ...apres.keys()])
+  const faits: { id: string; delta: number }[] = []
+  const annuler = async () => { for (const f of faits) await Produit.findByIdAndUpdate(f.id, { $inc: { quantite: -f.delta } }) }
+  const client = `${fiche.nom} ${fiche.prenom ?? ''}`.trim()
+  // d'abord les retours en stock, puis les sorties (qui peuvent échouer)
+  const liste = [...ids].map((id) => ({ id, delta: arrondi((avant.get(id) ?? 0) - (apres.get(id) ?? 0)) })).filter((x) => x.delta !== 0).sort((a, b) => b.delta - a.delta)
+  for (const { id, delta } of liste) {
+    if (!isId(id)) { await annuler(); return 'Produit invalide' }
+    const p = await Produit.findOneAndUpdate(delta > 0 ? { _id: id } : { _id: id, quantite: { $gte: -delta } }, { $inc: { quantite: delta } }, { new: true })
+    if (!p) {
+      await annuler()
+      const nom = (await Produit.findById(id))?.nom
+      return nom ? `Stock insuffisant pour « ${nom} »` : 'Un produit utilisé n\'existe plus dans la pharmacie'
+    }
+    faits.push({ id, delta })
+    await Mouvement.create({ produit: p._id, produitNom: p.nom, type: delta < 0 ? 'sortie' : 'entree', quantite: Math.abs(delta), stockApres: arrondi(p.quantite), fiche: fiche.id, animal: fiche.animal, client, lot: p.lot, note: delta < 0 ? 'Utilisé dans la fiche' : 'Retiré de la fiche (retour en stock)' })
+  }
+  return null
+}

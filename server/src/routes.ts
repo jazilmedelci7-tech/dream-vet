@@ -13,7 +13,7 @@ import {
   startSession,
 } from "./auth.js";
 import { Admin, Fiche, ImageData, Mouvement, Produit, Rdv, Setting } from "./models.js";
-import { pharmacie } from "./pharmacie.js";
+import { pharmacie, synchroniserStock } from "./pharmacie.js";
 import {
   clearTelegram,
   detectChatId,
@@ -241,7 +241,19 @@ router.get("/fiches/:id", async (req, res) => {
 router.post("/fiches", async (req, res) => {
   const data = parse(ficheSchema, req.body, res);
   if (!data) return;
-  res.status(201).json(await Fiche.create(data));
+  const fiche = new Fiche(data);
+  const erreur = await synchroniserStock([], data.visites, { id: String(fiche._id), animal: data.animal, nom: data.nom, prenom: data.prenom });
+  if (erreur) {
+    res.status(409).json({ error: erreur });
+    return;
+  }
+  try {
+    await fiche.save();
+  } catch (e) {
+    await synchroniserStock(data.visites, [], { id: String(fiche._id), animal: data.animal, nom: data.nom, prenom: data.prenom });
+    throw e;
+  }
+  res.status(201).json(fiche);
 });
 router.put("/fiches/:id", async (req, res) => {
   if (!isId(req.params.id)) {
@@ -250,6 +262,17 @@ router.put("/fiches/:id", async (req, res) => {
   }
   const data = parse(ficheSchema, req.body, res);
   if (!data) return;
+  const avant = await Fiche.findById(req.params.id);
+  if (!avant) {
+    res.status(404).json({ error: "Fiche introuvable" });
+    return;
+  }
+  const infos = { id: req.params.id, animal: data.animal, nom: data.nom, prenom: data.prenom };
+  const erreur = await synchroniserStock(avant.visites, data.visites, infos);
+  if (erreur) {
+    res.status(409).json({ error: erreur });
+    return;
+  }
   const f = await Fiche.findByIdAndUpdate(
     req.params.id,
     { $set: data },
