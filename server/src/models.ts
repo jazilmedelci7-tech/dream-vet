@@ -22,6 +22,17 @@ const produitUtiliseSchema = new Schema(
   { _id: false },
 )
 
+/** Un rappel à faire (ex. « CRP-RH » dans 1 an, « CRP » dans 1 mois) : une visite peut en avoir plusieurs. */
+const rappelSchema = new Schema(
+  {
+    id: { type: String, required: true },
+    date: { type: String, default: '' },
+    libelle: { type: String, default: '' },
+    fait: { type: Boolean, default: false },
+  },
+  { _id: false },
+)
+
 const visiteSchema = new Schema(
   {
     id: { type: String, required: true },
@@ -31,6 +42,7 @@ const visiteSchema = new Schema(
     medicaments: { type: [String], default: [] },
     produits: { type: [produitUtiliseSchema], default: [] },
     rappel: { type: String, default: '' },
+    rappels: { type: [rappelSchema], default: [] },
     note: { type: String, default: '' },
   },
   { _id: false },

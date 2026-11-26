@@ -21,6 +21,13 @@ const produitUtilise = z.object({
   note: str(200),
 })
 
+const rappelVisite = z.object({
+  id: z.string().trim().min(1).max(40),
+  date: day,
+  libelle: str(100),
+  fait: z.boolean().default(false),
+})
+
 const visite = z.object({
   id: z.string().trim().min(1).max(40),
   date: day,
@@ -29,6 +36,7 @@ const visite = z.object({
   medicaments: z.array(z.string().trim().min(1).max(120)).max(40).default([]),
   produits: z.array(produitUtilise).max(40).default([]),
   rappel: day,
+  rappels: z.array(rappelVisite).max(20).default([]),
   note: str(2000),
 })
 

@@ -138,7 +138,7 @@ pharmacie.post('/fiches/:id/soins', async (req, res) => {
     const lotTxt = p.lot ? `Lot ${p.lot}` : ''
     let v = fiche.visites.find((x) => x.date === date)
     if (!v) {
-      fiche.visites.push({ id: randomUUID(), date, motifs: [], vaccins: [], medicaments: [], produits: [], rappel: '', note: '' })
+      fiche.visites.push({ id: randomUUID(), date, motifs: [], vaccins: [], medicaments: [], produits: [], rappel: '', rappels: [], note: '' })
       v = fiche.visites[fiche.visites.length - 1]!
     }
     const deja = v.produits.find((u) => u.produitId === String(p._id))
@@ -147,7 +147,7 @@ pharmacie.post('/fiches/:id/soins', async (req, res) => {
     if (p.type === 'Vaccin') {
       if (!v.vaccins.includes(nomVaccin)) v.vaccins.push(nomVaccin)
       if (!v.motifs.includes('Vaccination')) v.motifs.push('Vaccination')
-      if (d.rappel) v.rappel = d.rappel
+      if (d.rappel) v.rappels.push({ id: randomUUID(), date: d.rappel, libelle: nomVaccin, fait: false })
       if (lotTxt && !v.note.includes(lotTxt)) v.note = `${v.note ? v.note + '\n' : ''}${p.nom} – ${lotTxt}`.slice(0, 2000)
     } else if (!v.medicaments.includes(nomMedic)) {
       v.medicaments.push(nomMedic)
