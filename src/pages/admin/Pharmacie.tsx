@@ -11,7 +11,7 @@ const vaccinsCourants: ProduitInput[] = [
   { ...vide, type: 'Vaccin', nom: 'Vaccin Leptospirose', protege: 'Leptospirose', especes: 'Chien', unite: 'dose', seuil: 5 },
   { ...vide, type: 'Vaccin', nom: 'Vaccin Rage (chien)', protege: 'Rage', especes: 'Chien', unite: 'dose', seuil: 5 },
   { ...vide, type: 'Vaccin', nom: 'Vaccin Leishmaniose', protege: 'Leishmaniose', especes: 'Chien', unite: 'dose', seuil: 5 },
-  { ...vide, type: 'Vaccin', nom: 'Vaccin CHLP', protege: 'CHLP', especes: 'Chat', unite: 'dose', seuil: 5 },
+  { ...vide, type: 'Vaccin', nom: 'Vaccin CRP', protege: 'CRP', especes: 'Chat', unite: 'dose', seuil: 5 },
   { ...vide, type: 'Vaccin', nom: 'Vaccin Rage (chat)', protege: 'Rage', especes: 'Chat', unite: 'dose', seuil: 5 },
 ]
 const nombre = (v: string) => { const n = parseFloat(v.replace(',', '.')); return Number.isFinite(n) && n >= 0 ? n : 0 }
@@ -159,7 +159,7 @@ export default function Pharmacie() {
 
           {!list.some((p) => p.type === 'Vaccin') && (
             <div className="card mb-6 flex flex-wrap items-center justify-between gap-3">
-              <p className="max-w-xl text-sm">Pour commencer vite : ajoute les vaccins courants (chiens : CHPPi, leptospirose, rage, leishmaniose · chats : CHLP, rage). Ils sont créés avec un stock de 0, tu indiques ensuite les quantités.</p>
+              <p className="max-w-xl text-sm">Pour commencer vite : ajoute les vaccins courants (chiens : CHPPi, leptospirose, rage, leishmaniose · chats : CRP, rage). Ils sont créés avec un stock de 0, tu indiques ensuite les quantités.</p>
               <button className="btn btn-ghost disabled:opacity-60" disabled={busy} onClick={() => void ajouterVaccins()}>{busy ? 'Ajout…' : 'Ajouter les vaccins courants'}</button>
             </div>
           )}

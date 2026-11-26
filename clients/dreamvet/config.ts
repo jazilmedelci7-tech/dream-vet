@@ -39,7 +39,7 @@ const config: SiteConfig = {
     { title: 'Dentisterie', icon: 'dents', text: 'La santé de la bouche compte autant que le reste : dents et gencives de votre animal sont examinées avec soin.', points: ['Examen des dents et des gencives', 'Détartrage', 'Conseils pour l\'hygiène dentaire'] },
     { title: 'Gardiennage', icon: 'gardiennage', text: 'Vous partez quelques jours ? Votre animal est gardé à la clinique.', points: ['Renseignez-vous sur les places disponibles', 'Précisez son alimentation et ses habitudes', 'Appelez-nous pour réserver'] },
     { title: 'Hospitalisation', icon: 'hospitalisation', text: 'Pour les animaux qui ont besoin de soins et de surveillance dans la durée.', points: ['Traitements et perfusions', 'Suivi médical par le vétérinaire', 'Nous restons en contact avec vous'] },
-    { title: 'Vaccination', icon: 'vaccin', text: 'Protégez votre animal avec les vaccins adaptés à son espèce et à son âge.', points: ['Chiens : CHPPi, leptospirose, rage, leishmaniose', 'Chats : CHLP, rage', 'Carnet de rappels dans la fiche'] },
+    { title: 'Vaccination', icon: 'vaccin', text: 'Protégez votre animal avec les vaccins adaptés à son espèce et à son âge.', points: ['Chiens : CHPPi, leptospirose, rage, leishmaniose', 'Chats : CRP, rage', 'Carnet de rappels dans la fiche'] },
     { title: 'Bien-être animal', icon: 'bienetre', text: 'Alimentation, hygiène, parasites : les bons réflexes pour qu\'il vive longtemps en pleine forme.', points: ['Vermifuge et anti-puces', 'Conseils d\'alimentation', 'Questions de comportement'] },
   ],
   avis: [],

@@ -30,7 +30,7 @@ export const especes: Espece[] = [
       'Européen (commun)', 'Siamois', 'Persan', 'Maine Coon', 'British Shorthair', 'Ragdoll', 'Bengal', 'Sphynx', 'Angora turc',
       'Chartreux', 'Sacré de Birmanie', 'Abyssin', 'Norvégien', 'Scottish Fold', 'Exotic Shorthair', 'Croisé',
     ],
-    vaccins: ['CHLP', 'Rage'],
+    vaccins: ['CRP', 'Rage'],
     robes: [
       'Noir', 'Blanc', 'Roux', 'Gris / bleu', 'Crème', 'Tigré (tabby)', 'Tigré roux', 'Écaille de tortue', 'Tricolore (calico)',
       'Noir et blanc', 'Gris et blanc', 'Roux et blanc', 'Colourpoint (siamois)', 'Fumé', 'Autre',
